@@ -1,66 +1,94 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
     [SerializeField]
-    private float altura_salto;
+    private float forceJump;
     [SerializeField]
-    private float velocidad_movimiento;
-    private Animator animator;
+    private float movementVelocity;
     private Rigidbody2D rb;
-    private bool toco_piso;
-    private bool isRunning;
-    private float input;
+    private Animator animator;
+    private bool isGrounded;
+    private Scene activeScene;
 
-    // Use this for initialization
-    void Start() {
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    void Start () {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
+	
+	void Update () {
 
-    void OnCollisionEnter2D(Collision2D c)
-    {
-        toco_piso = c.gameObject.tag.Equals("Piso");
-        animator.SetBool("jump", false);
-    }
+        float h = Input.GetAxis("Horizontal");
 
+        rb.velocity = new Vector2(movementVelocity * h, rb.velocity.y);
 
-    // Update is called once per frame
-    void Update()
-    {
-        input = Input.GetAxis("Horizontal");
-
-        if (Input.GetButton("Jump") && (toco_piso))
+        if (h == 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, altura_salto);
-            toco_piso = false;
+            animator.SetBool("run", false);
+        }
+
+        if (h > 0.1f)
+        {
+            transform.localScale = new Vector2(1f, 1f);
+            animator.SetBool("run", true);
+        }
+
+        if (h < -0.1f)
+        {
+            transform.localScale = new Vector2(-1f, 1f);
+            animator.SetBool("run", true);
+        }
+
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, forceJump);
+            isGrounded = false;
             animator.SetBool("jump", true);
         }
 
-        if (input == 0)
+        if (activeScene != SceneManager.GetActiveScene())
         {
-            isRunning = false;
-            animator.SetBool("run", isRunning);
-            rb.velocity = Vector2.zero;
+            activeScene = SceneManager.GetActiveScene();
+
+            if (activeScene.buildIndex == 2)
+            {
+                transform.position = new Vector3(-5.28f, 0.61f, 0f);
+            }
+            if (activeScene.buildIndex == 3)
+            {
+                transform.position = new Vector3(-5.28f, 3.13f, 0f);
+            }
+            if (activeScene.buildIndex == 4)
+            {
+                transform.position = new Vector3(-5.86f, -1.88f, 0f);
+            }
+            if (activeScene.buildIndex == 5)
+            {
+                transform.position = new Vector3(-5.28f, 3.62f, 0f);
+            }
+            if (activeScene.buildIndex == 6)
+            {
+                transform.position = new Vector3(0f, -0.43f, 0f);
+            }
         }
-        else
+
+        activeScene = SceneManager.GetActiveScene();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Piso")
         {
-            if (input > 0)
-            {
-                isRunning = true;
-                rb.velocity = new Vector2(velocidad_movimiento, rb.velocity.y)*Time.deltaTime;
-                rb.transform.localScale = new Vector2(2.581018f, 2.581018f); //solucionar sprite debido a la escala//
-                animator.SetBool("run", isRunning);
-            }
-            else
-            {
-                isRunning = true;
-                rb.velocity = new Vector2(-velocidad_movimiento, rb.velocity.y)*Time.deltaTime;
-                rb.transform.localScale = new Vector2(-2.581018f, 2.581018f);
-                animator.SetBool("run", true);
-            }
+            isGrounded = true;
+            animator.SetBool("jump", false);
         }
     }
 }

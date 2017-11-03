@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Piso
+  - Enemies
+  - Souls
+  - Soul
   layers:
   - Default
   - TransparentFX
