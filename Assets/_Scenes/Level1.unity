@@ -2012,6 +2012,10 @@ Prefab:
       propertyPath: soulsText
       value: 
       objectReference: {fileID: 914273439}
+    - target: {fileID: 1366377182918118, guid: d2b84ff2c6911c34d896b04608ac2881, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d2b84ff2c6911c34d896b04608ac2881, type: 2}
   m_IsPrefabParent: 0
