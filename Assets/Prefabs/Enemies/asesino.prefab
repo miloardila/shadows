@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212497463547731436}
   - component: {fileID: 61289252306059190}
   - component: {fileID: 114134488687326712}
+  - component: {fileID: 95943215943380134}
   m_Layer: 0
   m_Name: asesino
   m_TagString: Enemies
@@ -67,6 +68,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.02, y: 1.03}
   m_EdgeRadius: 0
+--- !u!95 &95943215943380134
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1852510879488368}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2994a104089ee784b91f527db9443fad, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114134488687326712
 MonoBehaviour:
   m_ObjectHideFlags: 1
