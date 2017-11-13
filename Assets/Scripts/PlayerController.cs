@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded;
+    private bool isRunning;
     private Scene activeScene;
 
     private void Awake()
@@ -30,29 +31,42 @@ public class PlayerController : MonoBehaviour {
 
         rb.velocity = new Vector2(movementVelocity * h, rb.velocity.y);
 
-        if (h == 0)
-        {
-            animator.SetBool("run", false);
-        }
-
-        if (h > 0.1f)
-        {
-            transform.localScale = new Vector2(1f, 1f);
-            animator.SetBool("run", true);
-        }
-
-        if (h < -0.1f)
-        {
-            transform.localScale = new Vector2(-1f, 1f);
-            animator.SetBool("run", true);
-        }
-
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, forceJump);
             isGrounded = false;
+            animator.SetBool("static", false);
             animator.SetBool("jump", true);
         }
+        else
+        {
+            if (h > 0.1f && !isRunning)
+            {
+                transform.localScale = new Vector2(1f, 1f);
+                isRunning = true;
+                animator.SetBool("static", false);
+                animator.SetBool("run", true);
+            }
+            else
+            {
+                if (h < -0.1f && !isRunning)
+                {
+                    transform.localScale = new Vector2(-1f, 1f);
+                    animator.SetBool("static", false);
+                    animator.SetBool("run", true);
+                }
+                else
+                {
+                    if (h == 0)
+                    {
+                        animator.SetBool("run", false);
+                        animator.SetBool("static", true);
+                        isRunning = false;
+                    }
+                }
+            }
+        }
+        
 
         if (activeScene != SceneManager.GetActiveScene())
         {
