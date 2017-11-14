@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
+            animator.SetBool("atacking", false);
             rb.velocity = new Vector2(rb.velocity.x, forceJump);
             isGrounded = false;
             animator.SetBool("static", false);
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (h > 0.1f && !isRunning)
             {
+                animator.SetBool("atacking", false);
                 transform.localScale = new Vector2(1f, 1f);
                 isRunning = true;
                 animator.SetBool("static", false);
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour {
             {
                 if (h < -0.1f && !isRunning)
                 {
+                    animator.SetBool("atacking", false);
                     transform.localScale = new Vector2(-1f, 1f);
                     animator.SetBool("static", false);
                     animator.SetBool("run", true);
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour {
                 {
                     if (h == 0)
                     {
+                        animator.SetBool("atacking", false);
                         animator.SetBool("run", false);
                         animator.SetBool("static", true);
                         isRunning = false;
